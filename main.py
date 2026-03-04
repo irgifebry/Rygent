@@ -118,35 +118,6 @@ def suspend():
     threading.Thread(target=do_suspend, daemon=True).start()
     return jsonify({"status": "Success", "message": "System is suspending..."})
 
-# Discovery Logic
-discovery_data = []
-
-def start_discovery():
-    from discovery import register_service
-    
-    # 1. Start UDP Broadcast Fallback independently (more reliable)
-    def run_udp():
-        try:
-            from discovery import start_udp_broadcast
-            start_udp_broadcast(Config.PORT)
-        except Exception as e:
-            print(f"UDP discovery failed: {e}")
-
-    threading.Thread(target=run_udp, daemon=True).start()
-
-    # 2. Start mDNS (Zeroconf) independently
-    def run_mdns():
-        try:
-            zc, info = register_service(Config.PORT)
-            discovery_data.append((zc, info))
-            # Keep thread alive
-            while True:
-                time.sleep(1)
-        except Exception as e:
-            print(f"mDNS discovery failed: {e}")
-
-    threading.Thread(target=run_mdns, daemon=True).start()
-
 # Protected system PIDs that should never be killed
 PROTECTED_PIDS = {1}  # PID 1 = init/systemd
 
@@ -193,13 +164,6 @@ def stop_agent():
             tunnel_manager.force_stop_tunnel()
         except: pass
 
-        # 1. Try to unregister from discovery first
-        try:
-            for zc, info in discovery_data:
-                zc.unregister_service(info)
-                zc.close()
-        except:
-            pass
         # 2. Hard exit with success code to prevent systemd restart
         os._exit(0) 
     
@@ -213,8 +177,6 @@ def run_server():
             print(f"Port {Config.PORT} is already in use. Assuming server is already running.")
             return
 
-    # Start discovery
-    threading.Thread(target=start_discovery, daemon=True).start()
     
     # Start Tunnel if cloudflared is installed
     import shutil
