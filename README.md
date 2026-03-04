@@ -1,16 +1,15 @@
-# Rygent System Monitor - Ubuntu/Linux Agent
+# Rygent System Monitor - Linux Agent
 
-**Rygent Agent** is a background application (with a GUI) running on your Ubuntu/Linux computer. It securely collects system metrics (CPU, RAM, Disk, Network) and serves them to the Android client app.
+**Rygent Agent** is a background application (with a GUI) running on your Linux computer. It securely collects system metrics (CPU, RAM, Disk, Network) and serves them to the Android client app.
 
 ## 🌟 Key Features
 - **Fast & Lightweight**: Built with Python and Flask to ensure optimal system performance.
 - **Remote Connection**: Fully integrated with Cloudflare Tunnels for secure, real-time remote access to your system without the hassle of setting up public IPs or port forwarding.
 - **Simple GUI & System Tray**: Easily controllable via its graphical interface and a discreet System Tray icon.
-- **Auto-Start Support**: Includes a ready-to-use `system-monitor.service` file to allow the agent to start automatically when your PC boots up.
 
 ## 🚀 Installation Guide (Super Easy!)
 
-An automated installer script is provided to handle dependencies, create application shortcuts, and configure your environment.
+An automated installer script is provided to handle dependencies, create application shortcuts, and configure your environment. It automatically supports both **Debian/Ubuntu (.deb)** and **RHEL/Fedora/Arch (.rpm/pacman)** based distributions!
 
 ### Steps to Install:
 1. Clone this repository (specifically the **Linux** branch):
@@ -26,17 +25,10 @@ An automated installer script is provided to handle dependencies, create applica
    ```bash
    sudo ./rygent-agent-installer.sh
    ```
-4. You're all set! You can launch the application from your Ubuntu app menu by searching for **"Rygent Agent"**, or by typing the following command in your terminal:
+4. You're all set! You can launch the application from your desktop's app menu by searching for **"Rygent Agent"**, or by typing the following command in your terminal:
    ```bash
    rygent-agent
    ```
-
-### ⚙️ Setting Up Auto-Start (Systemd)
-The project includes a `system-monitor.service` file for auto-start capabilities. To use it, you will need to edit the file to point to the correct installation path (`/opt/rygent-agent`) and copy it to your systemd directory (`/etc/systemd/system/`), then run:
-```bash
-sudo systemctl enable system-monitor
-sudo systemctl start system-monitor
-```
 
 ## 🛠️ Troubleshooting
 
