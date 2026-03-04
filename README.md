@@ -9,6 +9,11 @@ Rygent (Android) is a system monitoring client app that allows you to monitor th
 
 ## 🚀 Installation Guide
 
+> [!IMPORTANT]
+> **Need to install the Rygent Agent on your PC?** 
+> The Ubuntu/Linux agent code and its installation instructions are located in a separate branch. Please switch to the **[Linux Branch](https://github.com/irgifebry/Rygent/tree/Linux)** to view that documentation.
+
+### 📱 Android App Installation
 Installing the Android app is incredibly simple. There is no need to compile the code manually using Android Studio.
 
 1. Navigate to the **[Releases](https://github.com/irgifebry/Rygent/releases)** page of this GitHub repository.
