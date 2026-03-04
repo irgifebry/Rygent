@@ -1,6 +1,6 @@
 # Rygent System Monitor - Android Client
 
-Rygent (Android) is a system monitoring client app that allows you to monitor the real-time status of your PC/Server (Ubuntu/Linux) directly from your Android device. It pairs perfectly with the "Rygent Agent" running on your computer.
+Rygent (Android) is a system monitoring client app that allows you to monitor the real-time status of your PC/Server (Linux) directly from your Android device. It pairs perfectly with the "Rygent Agent" running on your computer.
 
 ## 🌟 Key Features
 - **Real-time Monitoring**: Get live metrics of your computer's CPU, RAM, Disk, and Network usage.
@@ -11,7 +11,7 @@ Rygent (Android) is a system monitoring client app that allows you to monitor th
 
 > [!IMPORTANT]
 > **Need to install the Rygent Agent on your PC?** 
-> The Ubuntu/Linux agent code and its installation instructions are located in a separate branch. Please switch to the **[Linux Branch](https://github.com/irgifebry/Rygent/tree/Linux)** to view that documentation.
+> The Linux agent code and its installation instructions are located in a separate branch. Please switch to the **[Linux Branch](https://github.com/irgifebry/Rygent/tree/Linux)** to view that documentation.
 
 ### 📱 Android App Installation
 Installing the Android app is incredibly simple. There is no need to compile the code manually using Android Studio.
