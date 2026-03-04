@@ -2,12 +2,12 @@
 
 **Rygent Agent** is a background application (with a GUI) running on your Linux computer. It securely collects system metrics (CPU, RAM, Disk, Network) and serves them to the Android client app.
 
-## 🌟 Key Features
+## Key Features
 - **Fast & Lightweight**: Built with Python and Flask to ensure optimal system performance.
 - **Remote Connection**: Fully integrated with Cloudflare Tunnels for secure, real-time remote access to your system without the hassle of setting up public IPs or port forwarding.
 - **Simple GUI & System Tray**: Easily controllable via its graphical interface and a discreet System Tray icon.
 
-## 🚀 Installation Guide (Super Easy!)
+## Installation Guide (Super Easy!)
 
 An automated installer script is provided to handle dependencies, create application shortcuts, and configure your environment. It automatically supports both **Debian/Ubuntu (.deb)** and **RHEL/Fedora/Arch (.rpm/pacman)** based distributions!
 
@@ -19,18 +19,18 @@ An automated installer script is provided to handle dependencies, create applica
    ```
 2. Grant execution permissions to the installer script:
    ```bash
-   chmod +x rygent-agent-installer.sh
+   chmod +x installer.sh
    ```
 3. Run the installer script as Root (Superuser):
    ```bash
-   sudo ./rygent-agent-installer.sh
+   sudo ./installer.sh
    ```
 4. You're all set! You can launch the application from your desktop's app menu by searching for **"Rygent Agent"**, or by typing the following command in your terminal:
    ```bash
    rygent-agent
    ```
 
-## 🛠️ Troubleshooting
+## Troubleshooting
 
 ### 1. Installer Script Fails to Run
 - **Error Message**: `Permission denied` or `Run as root`.
