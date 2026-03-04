@@ -1,33 +1,33 @@
 # Rygent System Monitor - Android Client
 
-Rygent (Android) adalah aplikasi klien pemantau sistem (System Monitor) yang memungkinkan Anda untuk memantau status PC/Server (Ubuntu/Linux) Anda secara real-time dari perangkat Android. Aplikasi ini berpasangan dengan "Rygent Agent" yang berjalan di komputer Anda.
+Rygent (Android) is a system monitoring client app that allows you to monitor the real-time status of your PC/Server (Ubuntu/Linux) directly from your Android device. It pairs perfectly with the "Rygent Agent" running on your computer.
 
-## 🌟 Fitur Utama
-- **Pemantauan Real-time**: Melihat penggunaan CPU, RAM, Disk, dan Jaringan komputer secara langsung.
-- **Koneksi Jarak Jauh (Remote)**: Terhubung ke komputer Anda dari mana saja melalui internet menggunakan Cloudflare Tunnel.
-- **Tampilan Modern**: Antarmuka pengguna yang bersih, modern, dan mudah digunakan.
+## 🌟 Key Features
+- **Real-time Monitoring**: Get live metrics of your computer's CPU, RAM, Disk, and Network usage.
+- **Remote Connection**: Connect to your computer from anywhere over the internet securely via Cloudflare Tunnel.
+- **Modern Interface**: A clean, sleek, and intuitive User Interface designed for easy navigation.
 
-## 🚀 Panduan Instalasi 
+## 🚀 Installation Guide
 
-Instalasi aplikasi Android ini sangat mudah. Anda tidak perlu membangun (build) kode secara manual atau menggunakan Android Studio.
+Installing the Android app is incredibly simple. There is no need to compile the code manually using Android Studio.
 
-1. Buka halaman **[Releases](https://github.com/irgifebry/Rygent/releases)** di repository GitHub ini.
-2. Unduh file `.apk` terbaru (contoh: `Rygent-v1.0.apk`).
-3. Buka file `.apk` tersebut di HP Android Anda. (Pilih "Install Anyway" rta "Izinkan dari sumber tak dikenal" jika muncul peringatan, karena aplikasi tidak diunduh dari Play Store).
-4. Setelah terinstal, buka aplikasi dan pasangkan dengan PC Anda.
+1. Navigate to the **[Releases](https://github.com/irgifebry/Rygent/releases)** page of this GitHub repository.
+2. Download the latest `.apk` file (e.g., `Rygent-v1.0.apk`).
+3. Open the downloaded `.apk` file on your Android device. (You may need to select "Install Anyway" and "Allow from unknown sources" if prompted, as this app is not distributed via the Play Store).
+4. Once installed, launch the app and pair it with your PC using the QR code.
 
-## 🛠️ Troubleshooting (Masalah Umum)
+## 🛠️ Troubleshooting
 
-### 1. Aplikasi Gagal Terinstal
-- **Penyebab**: Konfigurasi keamanan OS Android.
-- **Solusi**: Pastikan pengaturan "Install from Unknown Sources" (Instal dari Sumber Tidak Dikenal) diaktifkan di setelan HP Android Anda.
+### 1. App Fails to Install
+- **Cause**: Android security settings blocking the installation.
+- **Solution**: Navigate to your device settings and ensure that the "Install from Unknown Sources" option is enabled.
 
-### 2. Koneksi Remote Gagal
-- **Penyebab**: PC Anda mungkin offline, pengaturan salah, atau peringatan Cloudflare Tunnel.
-- **Solusi**:
-  - Pastikan PC (Linux) Anda menyala dan terhubung dengan jaringan internet yang stabil.
-  - Pindai ulang barcode QR dari aplikasi Rygent Agent di desktop.
-  - Coba restart aplikasi di HP.
+### 2. Remote Connection Fails
+- **Cause**: Your PC might be offline, misconfigured, or the Cloudflare Tunnel might be down.
+- **Solution**:
+  - Ensure your Linux PC is powered on and connected to a stable internet network.
+  - Re-scan the pairing QR code from the Rygent Agent desktop app.
+  - Try restarting the app on your Android device.
 
 ---
-*Dibuat untuk mempermudah pemantauan sistem Anda di mana saja.*
+*Built to simplify your system monitoring anywhere, anytime.*
