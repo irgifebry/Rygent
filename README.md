@@ -2,10 +2,6 @@
 
 Rygent Agent is a high-performance system monitoring and secure tunnel management agent designed specifically for Windows platforms. It runs locally to gather system metrics, handle authentication, and orchestrate secure data tunnels back to your central management dashboard.
 
-> [!IMPORTANT]
-> **Need to install the Rygent Agent on your PC?** 
-> The Linux agent code and its installation instructions are located in a separate branch. Please switch to the **[Linux Branch](https://github.com/irgifebry/Rygent/tree/Linux)** to view that documentation.
-
 ---
 
 ## Key Features
