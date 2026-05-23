@@ -11,7 +11,7 @@
 
 > [!IMPORTANT]
 > **Need to install the Rygent Agent on your PC?** 
-> The Linux agent code and its installation instructions are located in a separate branch. Please switch to the **[Linux Branch](https://github.com/irgifebry/Rygent/tree/Linux)** to view that documentation.
+> The Linux or Windows agent code and its installation instructions are located in separate branches. Please switch to the **[Linux Branch](https://github.com/irgifebry/Rygent/tree/Linux)** or the **[Windows Branch](https://github.com/irgifebry/Rygent/tree/Windows)** to view that documentation.
 
 ### Android App Installation
 Installing the Android app is incredibly simple. There is no need to compile the code manually using Android Studio.
