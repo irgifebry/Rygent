@@ -22,4 +22,12 @@ class SettingsManager @Inject constructor(
     var ramThreshold: Int
         get() = prefs.getInt("ram_threshold", 90)
         set(value) = prefs.edit().putInt("ram_threshold", value).apply()
+
+    var isBackgroundMonitoring: Boolean
+        get() = prefs.getBoolean("is_background_monitoring", false)
+        set(value) = prefs.edit().putBoolean("is_background_monitoring", value).apply()
+
+    var dashboardRefreshRateMs: Long
+        get() = prefs.getLong("dashboard_refresh_rate", 5000L)
+        set(value) = prefs.edit().putLong("dashboard_refresh_rate", value).apply()
 }

@@ -347,14 +347,14 @@ class DeviceRepositoryImpl @Inject constructor(
             val rawToken = tokenManager.getToken(device.id)
             if (rawToken.isNullOrBlank()) return Result.failure(Exception("No token"))
             val token = rawToken.trim()
-            
+
             val cleanIp = device.ipAddress.replace("https://", "").replace("http://", "")
             val isTunnel = cleanIp.contains("trycloudflare.com") || cleanIp.contains("cloudflare")
-            
+
             val url = if (isTunnel || device.port == 443) {
-                "https://${device.ipAddress}${Constants.ENDPOINT_POWER}/$action"
+                "https://$cleanIp${Constants.ENDPOINT_POWER}/$action"
             } else {
-                "http://${device.ipAddress}:${device.port}${Constants.ENDPOINT_POWER}/$action"
+                "http://$cleanIp:${device.port}${Constants.ENDPOINT_POWER}/$action"
             }
 
             val response = when(action) {
@@ -594,10 +594,12 @@ class DeviceRepositoryImpl @Inject constructor(
     // ── Phase 3: Storage Intelligence Implementations ─────────
 
     private fun buildUrl(device: Device, endpoint: String): String {
-        return if (device.ipAddress.contains("trycloudflare.com")) {
-            "https://${device.ipAddress}$endpoint"
+        val cleanIp = device.ipAddress.replace("https://", "").replace("http://", "")
+        val isTunnel = cleanIp.contains("trycloudflare.com") || cleanIp.contains("cloudflare")
+        return if (isTunnel || device.port == 443) {
+            "https://$cleanIp$endpoint"
         } else {
-            "http://${device.ipAddress}:${device.port}$endpoint"
+            "http://$cleanIp:${device.port}$endpoint"
         }
     }
 
