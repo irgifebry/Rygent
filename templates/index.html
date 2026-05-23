@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rygent Agent Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="dashboard">
+        <header style="display: flex; justify-content: space-between; align-items: baseline;">
+            <div>
+                <h1>Rygent Agent</h1>
+                <p style="margin-top: -20px; color: var(--text-gray); font-size: 0.9rem;">
+                    Local IP: <span id="local-ip" style="color: var(--primary-blue); font-weight: 700;">{{ local_ip
+                        }}</span>
+                </p>
+            </div>
+            <div id="health-indicator" class="health-status">
+                <div class="status-dot"></div>
+                ONLINE
+            </div>
+        </header>
+
+        <div class="grid-metrics">
+            <div class="glass-card">
+                <div class="metric-header">
+                    <span class="metric-label">CPU LOAD</span>
+                </div>
+                <div class="metric-value" id="cpu-value">--%</div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="cpu-progress" style="width: 0%"></div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="cpuChart"></canvas>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div class="metric-header">
+                    <span class="metric-label">MEMORY USAGE</span>
+                </div>
+                <div class="metric-value" id="memory-value">--%</div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="memory-progress" style="width: 0%"></div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="memoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <span class="metric-label">TOP PROCESSES</span>
+            <div style="margin-top: 20px;">
+                <div id="process-list">
+                    <!-- Process items will be injected here -->
+                </div>
+            </div>
+        </div>
+
+        <footer style="margin-top: 40px; text-align: center; color: var(--text-gray); font-size: 0.8rem;">
+            Rygent Agent • <span id="uptime">Uptime: --</span>
+        </footer>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+
+</html>

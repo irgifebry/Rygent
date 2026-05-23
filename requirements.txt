@@ -1,0 +1,9 @@
+flask
+flask-cors
+psutil
+python-dotenv
+pillow
+qrcode
+pystray
+# Note: zeroconf is NOT included as local network discovery was removed
+pyinstaller
