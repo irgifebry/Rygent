@@ -55,12 +55,13 @@ class SystemMonitor:
                     # But calling cpu_percent(0.1) on hundreds of procs might be slow
                     # the proc.info dict already has cpu_percent cached since last psutil read
                     cpu_p = pinfo['cpu_percent'] or 0.0
-                    if cpu_p > 0.1 or pinfo['memory_info'].rss > 50*1024*1024: # Only track notable processes
+                    mem_info = pinfo.get('memory_info')
+                    if cpu_p > 0.1 or (mem_info and mem_info.rss > 50*1024*1024):
                         processes.append({
                             "pid": pinfo['pid'],
                             "name": pinfo['name'] or "Unknown",
                             "cpuPercent": cpu_p,
-                            "memoryBytes": pinfo['memory_info'].rss
+                            "memoryBytes": mem_info.rss if mem_info else 0
                         })
                 except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
                     pass
@@ -77,23 +78,20 @@ class SystemMonitor:
             # Runaway Detection (>80% CPU for >5 consecutive min)
             current_pids = set()
             new_alerts = []
+            existing_alert_pids = {a['pid'] for a in self.alerts}
             for p in top50:
                 pid = p['pid']
                 current_pids.add(pid)
                 if p['cpuPercent'] > 80.0:
                     self.runaway_processes[pid] = self.runaway_processes.get(pid, 0) + 1
-                    if self.runaway_processes[pid] >= 5: # 5 minutes
-                        is_new = True
-                        for a in self.alerts:
-                            if a['pid'] == pid: is_new = False
-                        if is_new:
-                            new_alerts.append({
-                                "pid": pid,
-                                "name": p['name'],
-                                "cpuPercent": p['cpuPercent'],
-                                "durationMin": self.runaway_processes[pid],
-                                "message": f"Process {p['name']} is using {p['cpuPercent']}% CPU for >5 minutes!"
-                            })
+                    if self.runaway_processes[pid] >= 5 and pid not in existing_alert_pids:
+                        new_alerts.append({
+                            "pid": pid,
+                            "name": p['name'],
+                            "cpuPercent": p['cpuPercent'],
+                            "durationMin": self.runaway_processes[pid],
+                            "message": f"Process {p['name']} is using {p['cpuPercent']}% CPU for >5 minutes!"
+                        })
                 else:
                     if pid in self.runaway_processes:
                         del self.runaway_processes[pid]
@@ -104,11 +102,13 @@ class SystemMonitor:
                     del self.runaway_processes[pid]
                     
             # Update alerts list (keep existing, add new, remove those that cooled down)
+            seen_pids = set()
             updated_alerts = []
             for alert in self.alerts + new_alerts:
-                if alert['pid'] in self.runaway_processes and self.runaway_processes[alert['pid']] >= 5:
-                    if alert not in updated_alerts:
-                        updated_alerts.append(alert)
+                pid = alert['pid']
+                if pid in self.runaway_processes and self.runaway_processes[pid] >= 5 and pid not in seen_pids:
+                    seen_pids.add(pid)
+                    updated_alerts.append(alert)
             self.alerts = updated_alerts
 
         except Exception as e:
@@ -216,14 +216,15 @@ class SystemMonitor:
     def get_local_ip(self):
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            s.connect(("8.8.8.8", 80))
-            local_ip = s.getsockname()[0]
-            s.close()
-            return local_ip
+            try:
+                s.connect(("8.8.8.8", 80))
+                return s.getsockname()[0]
+            finally:
+                s.close()
         except Exception:
             try:
                 return socket.gethostbyname(socket.gethostname())
-            except:
+            except Exception:
                 return "127.0.0.1"
 
     def get_system_info(self):
@@ -555,9 +556,6 @@ class SystemMonitor:
         return sensors
 
     # ── Phase 3: Storage Intelligence ──────────────────────────────
-
-    _prev_disk_io = {}
-    _prev_disk_io_time = 0
 
     def get_smart_info(self):
         """Get S.M.A.R.T. health for all physical drives using smartctl."""

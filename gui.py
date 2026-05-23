@@ -4,11 +4,9 @@ try:
     gi.require_version('WebKit2', '4.1')
 except ValueError:
     gi.require_version('WebKit2', '4.0')
-from gi.repository import Gtk, WebKit2, Gio, GLib
-import sys
+from gi.repository import Gtk, WebKit2, GLib
 import threading
 import time
-import subprocess
 
 class SystemMonitorGUI(Gtk.Window):
     def __init__(self):
@@ -16,69 +14,50 @@ class SystemMonitorGUI(Gtk.Window):
         self.set_default_size(1000, 700)
         self.set_position(Gtk.WindowPosition.CENTER)
 
-        # Create a WebView
-        self.webview = WebKit2.WebView()
-        
-        # Add a scrolled window to contain the WebView
-        self.scrolled_window = Gtk.ScrolledWindow()
-        self.scrolled_window.add(self.webview)
-        self.add(self.scrolled_window)
+        self.stack = Gtk.Stack()
+        self.add(self.stack)
 
-        # Show a loading message initially
-        self.set_placeholder()
-
-        # Start checking for the server in a background thread
-        threading.Thread(target=self.wait_for_server, daemon=True).start()
-        
-        # Close the app when the window is closed
-        self.connect("destroy", Gtk.main_quit)
-
-    def set_placeholder(self):
-        # Create a simple box with a label while loading
-        self.loading_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
-        self.loading_box.set_valign(Gtk.Align.CENTER)
-        self.loading_box.set_halign(Gtk.Align.CENTER)
-        
+        loading_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+        loading_box.set_valign(Gtk.Align.CENTER)
+        loading_box.set_halign(Gtk.Align.CENTER)
         label = Gtk.Label(label="Connecting to local monitor service...")
         spinner = Gtk.Spinner()
         spinner.start()
-        
-        self.loading_box.pack_start(label, True, True, 0)
-        self.loading_box.pack_start(spinner, True, True, 0)
-        
-        self.scrolled_window.hide()
-        self.add(self.loading_box)
-        self.show_all()
+        loading_box.pack_start(label, True, True, 0)
+        loading_box.pack_start(spinner, True, True, 0)
+        self.stack.add_named(loading_box, "loading")
+
+        scrolled_window = Gtk.ScrolledWindow()
+        self.webview = WebKit2.WebView()
+        scrolled_window.add(self.webview)
+        self.stack.add_named(scrolled_window, "browser")
+
+        self.stack.set_visible_child_name("loading")
+        self.connect("destroy", Gtk.main_quit)
+
+        threading.Thread(target=self.wait_for_server, daemon=True).start()
 
     def wait_for_server(self):
+        import socket as _socket
         url = "http://localhost:5000"
         max_retries = 10
-        retries = 0
-        
-        while retries < max_retries:
+        for _ in range(max_retries):
             try:
-                # Try simple connection check
-                import socket
-                with socket.create_connection(("localhost", 5000), timeout=1):
-                    # Server is up!
+                with _socket.create_connection(("localhost", 5000), timeout=1):
                     GLib.idle_add(self.load_dashboard, url)
                     return
-            except:
-                retries += 1
+            except Exception:
                 time.sleep(1)
-        
-        GLib.idle_add(self.show_error, "Could not connect to the background service. Please make sure system-monitor service is running.")
+        GLib.idle_add(self.show_error, "Could not connect to the background service.")
 
     def load_dashboard(self, url):
-        self.remove(self.loading_box)
-        self.scrolled_window.show()
         self.webview.load_uri(url)
-        self.show_all()
+        self.stack.set_visible_child_name("browser")
 
     def show_error(self, message):
-        self.remove(self.loading_box)
         error_label = Gtk.Label(label=message)
-        self.add(error_label)
+        self.stack.add_named(error_label, "error")
+        self.stack.set_visible_child_name("error")
         self.show_all()
 
 def main():
